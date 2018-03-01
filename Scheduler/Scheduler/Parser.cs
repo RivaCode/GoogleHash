@@ -19,7 +19,7 @@ namespace Scheduler
         public static Data Read(string fileName)
         {
             return File.ReadLines(
-                    Path.Combine(Directory.GetCurrentDirectory(), "inputs", fileName))
+                    System.IO.Path.Combine(Directory.GetCurrentDirectory(), "inputs", fileName))
                 .Take(1)
                 .Select(i =>
                 {
