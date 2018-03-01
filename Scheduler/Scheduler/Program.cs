@@ -14,23 +14,27 @@ namespace Scheduler
 
         static void Main(string[] args)
         {
-            var targetFile = SHOULD_BE_EASY;
-            var data = Parser.Parse(targetFile);
-
-            var simulation = new Simulation.Simulation
+            foreach (var targetFile in new[]{ EXAMPLE, SHOULD_BE_EASY, NO_HURRY, METROPOLIS, HIGH_BONUS })
             {
-                AvailableRides =
-                data.Rides.ToDictionary(
-                    x => x.Id,
-                    x => x),
-                History = new History(),
-                StepLimit = data.Steps,
-                TakenRides = new System.Collections.Generic.Dictionary<int, Models.Ride>(),
-                Vehicles = data.Vehicles
-            };
+                var data = Parser.Parse(targetFile);
 
-            simulation.Run();
-            simulation.History.Submit(targetFile);
+                var simulation = new Simulation.Simulation
+                {
+                    AvailableRides =
+                        data.Rides.ToDictionary(
+                            x => x.Id,
+                            x => x),
+                    History = new History(),
+                    StepLimit = data.Steps,
+                    TakenRides = new System.Collections.Generic.Dictionary<int, Models.Ride>(),
+                    Vehicles = data.Vehicles
+                };
+
+                simulation.Run();
+                simulation.History.Submit(targetFile);
+        }
+
+
         }
 
         static void RunSimulation()

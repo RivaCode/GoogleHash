@@ -36,6 +36,7 @@ namespace Scheduler.Simulation
                     {
                         if (takenRide.RidePath.StartLocation == v.CurentLocation) // create path for current eeide
                         {
+                            v.CurrentRide = takenRide;
                             History.Add(v, v.CurrentRide);
                             v.CurrentVehiclePath = new Path(
                                 takenRide.RidePath.StartLocation, 
