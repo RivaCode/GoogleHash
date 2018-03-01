@@ -1,5 +1,8 @@
-﻿namespace Scheduler.Models
+﻿using System.Diagnostics;
+
+namespace Scheduler.Models
 {
+    [DebuggerDisplay("Step:[{StartStep},{EndStep}], Path:{RidePath}, IsTaken:{IsTaken}, IsAvailiable:{IsAvailiable}")]
     public class Ride
     {
         public int StartStep { get; set; }

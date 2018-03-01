@@ -1,33 +1,62 @@
 ﻿using Scheduler.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using System.Linq;
+
+using IOPath = System.IO;
 
 namespace Scheduler
 {
     public static class Parser
     {
-        private const int R_ROWS = 0;
-        private const int C_COLUMNS = 1;
-        private const int F_VEHICLES = 2;
-        private const int N_RIDES = 3;
-        private const int B_BONUS = 4;
-        private const int T_STEPS = 5;
-
-        public static Data Read(string fileName)
+        public static Data Parse(string fileName)
         {
-            return File.ReadLines(
-                    Path.Combine(Directory.GetCurrentDirectory(), "inputs", fileName))
-                .Take(1)
-                .Select(i =>
-                {
-                    var row = i.Split(' ').Select(c => int.Parse(c)).ToArray();
-                    var vehicles = new Vehicle[row[F_VEHICLES]];
-                    var rides = new Ride[row[N_RIDES]];
-                    return new Data(vehicles, rides);
-                }).ToList()[0];
+            var lines = IOPath.File.ReadLines(
+                IOPath.Path.Combine(IOPath.Directory.GetCurrentDirectory(), "inputs", fileName))
+                .ToList();
+
+            var vehicles = lines.Take(1).AsNumeric().First().ReadVehicles();
+            var rides = lines.Skip(1).AsNumeric().ReadRides();
+            return new Data(vehicles, rides);
         }
+
+        private static Vehicle[] ReadVehicles(this int[] firstLineInfo)
+        {
+            const int F_VEHICLES = 2;
+            return new Vehicle[firstLineInfo[F_VEHICLES]];
+        }
+
+        private static Ride[] ReadRides(this IEnumerable<int[]> ridesInfo)
+        {
+            const int ROW_START = 0;
+            const int COLUMN_START = 1;
+            const int ROW_FINISH = 2;
+            const int COLUMN_FINISH = 3;
+            const int EARLIEST_START = 4;
+            const int LATEST_FINISH = 5;
+
+            return ridesInfo.Select(rideInfo => new Ride
+            {
+                RidePath = new Path
+                {
+                    StartLocation = new Coordinate
+                    {
+                        X = rideInfo[ROW_START],
+                        Y = rideInfo[COLUMN_START]
+                    },
+                    EndLocation = new Coordinate
+                    {
+                        X = rideInfo[ROW_FINISH],
+                        Y = rideInfo[COLUMN_FINISH]
+                    },
+                },
+                StartStep = rideInfo[EARLIEST_START],
+                EndStep = rideInfo[LATEST_FINISH]
+            }).ToArray();
+        }
+
+        private static IEnumerable<int[]> AsNumeric(this IEnumerable<string> src)
+            => src.Select(row => row.Split(' ').Select(c => int.Parse(c)).ToArray());
     }
 }

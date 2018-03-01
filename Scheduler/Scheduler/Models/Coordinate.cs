@@ -1,5 +1,8 @@
-﻿namespace Scheduler.Models
+﻿using System.Diagnostics;
+
+namespace Scheduler.Models
 {
+    [DebuggerDisplay("[{X},{Y}]")]
     public class Coordinate
     {
         public int X { get; set; }
