@@ -12,22 +12,11 @@ namespace Scheduler.Rides
         {
             var id =  GetOptimizeRide(r
                 .Select(c => new PreVehicleRideData(v.CurentLocation.PathLength(c.RidePath.StartLocation), c.StartStep,
-                    c.RidePath.Length)), currentStep);
+                    c.RidePath.Length)).ToList(), currentStep);
 
             return r.First(c => c.Id == id);
         }
-
-        public static int GetOptimizeRide(IEnumerable<PreVehicleRideData> data, int currentStep)
-        {
-            return data
-                .Where(d => IsRideCanGiveBonus(d, currentStep))
-                .OrderBy(d => d.WaitTime)
-                .ThenBy(d => d.StepsToStart)
-                .First()
-                .Id;
-
-        }
-
+        
         public static Ride GetClosesRide(Vehicle v, Ride[] r)
         {
             var stepsToRide = r
@@ -36,6 +25,22 @@ namespace Scheduler.Rides
                 .ToList();
 
             return stepsToRide.First().Item2;
+        }
+        
+        private static int GetOptimizeRide(List<PreVehicleRideData> data, int currentStep)
+        {
+            var preVehicleRideDatas = data
+                .Where(d => IsRideCanGiveBonus(d, currentStep))
+                .ToList();
+
+            if (!preVehicleRideDatas.Any())
+                return data.First().Id;
+
+            return preVehicleRideDatas
+                .OrderBy(d => d.WaitTime)
+                .ThenBy(d => d.StepsToStart)
+                .First()
+                .Id;
         }
 
         private static bool IsRideCanGiveBonus(PreVehicleRideData r, int currentStep)
