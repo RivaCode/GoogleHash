@@ -74,11 +74,22 @@ namespace Scheduler.Simulation
 
                             else
                             {
+                                if (v.CurrentRide.StartStep < t)
+                                    continue;
                                 History.Add(v, v.CurrentRide);
                                 v.Taken = true;
                                 v.CurrentVehiclePath = new Path(v.CurentLocation, v.CurrentRide.RidePath.EndLocation);
                             }
                         }
+                    }
+
+                    if (v.CurrentRide != null && v.Taken == false) // waiting on the intersection
+                    {
+                        if (v.CurrentRide.StartStep < t)
+                            continue;
+                        History.Add(v, v.CurrentRide);
+                        v.Taken = true;
+                        v.CurrentVehiclePath = new Path(v.CurentLocation, v.CurrentRide.RidePath.EndLocation);
                     }
                 }
             }

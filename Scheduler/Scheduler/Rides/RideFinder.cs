@@ -21,20 +21,19 @@ namespace Scheduler.Rides
             return r.First(c => c.Id == id);
         }
         
-        public static Ride GetClosesRide(Vehicle v, Ride[] r)
-        {
-            var stepsToRide = r
-                .Select(c => Tuple.Create(v.CurentLocation.PathLength(c.RidePath.StartLocation), c))
-                .OrderBy(t => t.Item1)
-                .ToList();
-
-            return stepsToRide.First().Item2;
-        }
-        
         private static int GetOptimizeRide(List<PreVehicleRideData> data, int currentStep)
         {
+            var bonusData = data
+                .Where(d => d.CanGetStartOnTimeBonus(currentStep))
+                .OrderBy(d => d.WaitTime)
+                .ThenBy(d => d.StepsToStart)
+                .FirstOrDefault();
+
+            if (bonusData != null)
+                return bonusData.Id;
+            
             var preVehicleRideDatas = data
-                .Where(d => IsRideCanGiveBonus(d, currentStep))
+                .Where(d => IsRideCanFinishedInTime(d, currentStep))
                 .ToList();
 
             if (!preVehicleRideDatas.Any())
@@ -47,7 +46,7 @@ namespace Scheduler.Rides
                 .Id;
         }
 
-        private static bool IsRideCanGiveBonus(PreVehicleRideData r, int currentStep)
+        private static bool IsRideCanFinishedInTime(PreVehicleRideData r, int currentStep)
         {
             var length = r.RideLenght;
 
@@ -59,7 +58,6 @@ namespace Scheduler.Rides
 
             return true;
         }
-        
     }
 
     
