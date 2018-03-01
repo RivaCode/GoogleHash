@@ -14,7 +14,7 @@ namespace Scheduler
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var data = Parser.Parse("a_example.in");
+            var data = Parser.Parse(EXAMPLE);
 
             var simulation = new Simulation.Simulation
             {
