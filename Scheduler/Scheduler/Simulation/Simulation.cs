@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Scheduler.Models;
+using Scheduler.Rides;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -22,23 +24,27 @@ namespace Scheduler.Simulation
                 {
                     if (v.Taken) continue;
 
-                    var takenRide = RideManager.FindRide(v, AvailableRides.Values);
+                    var takenRide = RideFinder.FindRide(v, AvailableRides.Values, t);
 
                     TakenRides.Add(takenRide.Id, takenRide);
                     AvailableRides.Remove(takenRide.Id);
 
                     if (takenRide != null)
                     {
-                        if (takenRide.Position == v.Position) // create path for current eeide
+                        if (takenRide.RidePath.StartLocation == v.CurentLocation) // create path for current eeide
                         {
-                            History.AddStarted(v.CurrentRide);
-                            v.Path = new Path(takenRide.Start, takenRide.End);
+                            History.AddStarted(v, v.CurrentRide);
+                            v.CurrentVehiclePath = new Path(
+                                takenRide.RidePath.StartLocation, 
+                                takenRide.RidePath.EndLocation);
                             v.Taken = true;
                             v.CurrentRide = takenRide;
                         }
                         else // create path to take ride
                         {
-                            v.Path = new Path(takenRide.Start, takenRide.End);
+                            v.CurrentVehiclePath = new Path(
+                                takenRide.RidePath.StartLocation,
+                                takenRide.RidePath.EndLocation);
                             v.Taken = false;
                             v.CurrentRide = takenRide;
                         }
@@ -47,27 +53,27 @@ namespace Scheduler.Simulation
 
                 foreach (var v in Vehicles)
                 {
-                    if (v.Path != null) // When no path vehicle has nothing to do
+                    if (v.CurrentVehiclePath != null) // When no path vehicle has nothing to do
                     {
-                        v.Path.Current++;
+                        v.CurrentVehiclePath.StepsDone++;
 
-                        if (v.Path.Current == v.Path.Length - 1) // vehicle has reached destination
+                        if (v.CurrentVehiclePath.IsDone) // vehicle has reached destination
                         {
-                            v.Position = v.Path.End;
+                            v.CurentLocation = v.CurrentVehiclePath.EndLocation;
                             
                             if (v.Taken) // the path was with a ride
                             {
-                                History.AddFinished(v.CurrentRide);
+                                History.AddFinished(v, v.CurrentRide);
                                 v.CurrentRide = null; // push the human out
                                 v.Taken = false;
-                                v.Path = null; // Path ended
+                                v.CurrentVehiclePath = null; // Path ended
                             }
 
                             else
                             {
-                                History.AddStarted(v.CurrentRide);
+                                History.AddStarted(v, v.CurrentRide);
                                 v.Taken = true;
-                                v.Path = new Path(v.CurrentRide.Start, v.CurrentPath.End);
+                                v.CurrentVehiclePath = new Path(v.CurrentRide.RidePath.StartLocation, v.CurrentVehiclePath.EndLocation);
                             }
                         }
                     }

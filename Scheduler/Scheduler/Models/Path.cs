@@ -5,9 +5,9 @@
         public Coordinate StartLocation { get;  }
         public Coordinate EndLocation { get; }
 
-        public int Lenght { get; set; }
+        public int Length { get; set; }
         public int StepsDone { get; set; }
-        public bool IsDone => StepsDone == Lenght;
+        public bool IsDone => StepsDone == Length;
 
         public Path(Coordinate start, Coordinate end)
         {
