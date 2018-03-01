@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Scheduler.Models
 {
-    class Ride
+    public class Ride
     {
     }
 }

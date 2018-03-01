@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Scheduler.Models
 {
-    class Vehicle
+    public class Vehicle
     {
     }
 }
