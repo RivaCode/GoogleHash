@@ -58,8 +58,7 @@ namespace Scheduler
                 {
                     RidePath = new Path(start, end),
                     StartStep = rideInfo[EARLIEST_START],
-                    EndStep = rideInfo[LATEST_FINISH],
-                    Id = i
+                    EndStep = rideInfo[LATEST_FINISH]
                 };
                 return ride;
             }).ToArray();

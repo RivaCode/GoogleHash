@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Scheduler.Extentions;
 
 namespace Scheduler
 {
@@ -13,7 +14,6 @@ namespace Scheduler
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             var data = Parser.Parse(EXAMPLE);
 
             var simulation = new Simulation.Simulation
@@ -29,9 +29,7 @@ namespace Scheduler
             };
 
             simulation.Run();
-
-
-            Console.Read();
+            simulation.History.Submit(EXAMPLE);
         }
 
         static void RunSimulation()
