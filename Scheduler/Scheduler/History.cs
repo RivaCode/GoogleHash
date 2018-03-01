@@ -12,12 +12,12 @@ namespace Scheduler
         }
         internal void AddFinished(Vehicle v, Ride currentRide)
         {
-            throw new NotImplementedException();
+            
         }
 
         internal void AddStarted(Vehicle v, Ride currentRide)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
