@@ -66,7 +66,7 @@ namespace Scheduler.Simulation
                             
                             if (v.Taken) // the path was with a ride
                             {
-                                History.Add(v, v.CurrentRide);
+                                //History.Add(v, v.CurrentRide);
                                 v.CurrentRide = null; // push the human out
                                 v.Taken = false;
                                 v.CurrentVehiclePath = null; // Path ended
