@@ -36,23 +36,25 @@ namespace Scheduler
             const int EARLIEST_START = 4;
             const int LATEST_FINISH = 5;
 
-            return ridesInfo.Select(rideInfo => new Ride
+            return ridesInfo.Select(rideInfo =>
             {
-                RidePath = new Path
+                var start = new Coordinate
                 {
-                    StartLocation = new Coordinate
-                    {
-                        X = rideInfo[ROW_START],
-                        Y = rideInfo[COLUMN_START]
-                    },
-                    EndLocation = new Coordinate
-                    {
-                        X = rideInfo[ROW_FINISH],
-                        Y = rideInfo[COLUMN_FINISH]
-                    },
-                },
-                StartStep = rideInfo[EARLIEST_START],
-                EndStep = rideInfo[LATEST_FINISH]
+                    X = rideInfo[ROW_START],
+                    Y = rideInfo[COLUMN_START]
+                };
+                var end = new Coordinate
+                {
+                    X = rideInfo[ROW_FINISH],
+                    Y = rideInfo[COLUMN_FINISH]
+                };
+                var ride = new Ride
+                {
+                    RidePath = new Path(start, end),
+                    StartStep = rideInfo[EARLIEST_START],
+                    EndStep = rideInfo[LATEST_FINISH]
+                };
+                return ride;
             }).ToArray();
         }
 

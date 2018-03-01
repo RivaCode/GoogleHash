@@ -1,9 +1,13 @@
-﻿using System;
+using System;
+using System.Diagnostics;
+
 
 namespace Scheduler.Models
 {
+    [DebuggerDisplay("[{X},{Y}]")]
     public class Coordinate : IEquatable<Coordinate>
     {
+
         public int X { get; set; }
         public int Y { get; set; }
 
@@ -12,11 +16,12 @@ namespace Scheduler.Models
             return this.X == other.X && this.Y == other.Y;
         }
 
-        public bool Equals(object other)
+        public override bool Equals(object other)
         {
-            if (other is Coordinate c)
-                return this.Equals(c);
-            return false;
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            if (other.GetType() != this.GetType()) return false;
+            return Equals((Coordinate)other);
         }
 
         public static bool operator ==(Coordinate left, Coordinate right)

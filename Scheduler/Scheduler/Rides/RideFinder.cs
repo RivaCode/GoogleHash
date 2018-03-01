@@ -12,7 +12,7 @@ namespace Scheduler.Rides
         {
             var id =  GetOptimizeRide(r
                 .Select(c => new PreVehicleRideData(v.CurentLocation.PathLength(c.RidePath.StartLocation), c.StartStep,
-                    c.RidePath.Lenght)), currentStep);
+                    c.RidePath.Length)), currentStep);
 
             return r.First(c => c.Id == id);
         }
