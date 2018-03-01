@@ -21,6 +21,8 @@ namespace Scheduler.Rides
         {
             return data
                 .Where(d => IsRideCanGiveBonus(d, currentStep))
+                .OrderBy(d => d.WaitTime)
+                .ThenBy(d => d.StepsToStart)
                 .First()
                 .Id;
 
