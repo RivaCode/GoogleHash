@@ -21,5 +21,13 @@
             if (WaitTime < 0) WaitTime = 0;
             return this;
         }
+
+        public bool CanGetStartOnTimeBonus(int currentTime)
+        {
+            if (StepsToStart + currentTime > AvailiableAt)
+                return false;
+
+            return true;
+        }
     }
 }
