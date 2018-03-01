@@ -14,7 +14,8 @@ namespace Scheduler
 
         static void Main(string[] args)
         {
-            var data = Parser.Parse(EXAMPLE);
+            var targetFile = SHOULD_BE_EASY;
+            var data = Parser.Parse(targetFile);
 
             var simulation = new Simulation.Simulation
             {
@@ -29,7 +30,7 @@ namespace Scheduler
             };
 
             simulation.Run();
-            simulation.History.Submit(EXAMPLE);
+            simulation.History.Submit(targetFile);
         }
 
         static void RunSimulation()
