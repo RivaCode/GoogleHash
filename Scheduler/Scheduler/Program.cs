@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Scheduler.Extentions;
 
@@ -26,7 +27,7 @@ namespace Scheduler
                             x => x),
                     History = new History(),
                     StepLimit = data.Steps,
-                    TakenRides = new System.Collections.Generic.Dictionary<int, Models.Ride>(),
+                    TakenRides = new Dictionary<int, Models.Ride>(),
                     Vehicles = data.Vehicles
                 };
 
