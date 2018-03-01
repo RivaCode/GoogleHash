@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Scheduler.Models
+﻿namespace Scheduler.Models
 {
-    class Vehicle
+    public class Vehicle
     {
+        public Coordinate CurentLocation { get; set; }
+        public Path CurrentVehiclePath { get; set; }
     }
 }
