@@ -15,7 +15,7 @@ namespace Scheduler
 
         static void Main(string[] args)
         {
-            foreach (var targetFile in new[]{ EXAMPLE, SHOULD_BE_EASY, NO_HURRY, METROPOLIS, HIGH_BONUS })
+            foreach (var targetFile in new[] { EXAMPLE, SHOULD_BE_EASY, NO_HURRY, METROPOLIS, HIGH_BONUS })
             {
                 var data = Parser.Parse(targetFile);
 
@@ -33,14 +33,7 @@ namespace Scheduler
 
                 simulation.Run();
                 simulation.History.Submit(targetFile);
-        }
-
-
-        }
-
-        static void RunSimulation()
-        {
-
+            }
         }
     }
 }
