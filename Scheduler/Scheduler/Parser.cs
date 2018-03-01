@@ -25,16 +25,16 @@ namespace Scheduler
             var vehicles = firstLine.ReadVehicles();
             var rides = lines.Skip(1).AsNumeric().ReadRides();
 
-            return new Data(vehicles, rides,steps, bonus);
+            return new Data(vehicles, rides, steps, bonus);
         }
 
         private static Vehicle[] ReadVehicles(this int[] firstLineInfo)
         {
             const int F_VEHICLES = 2;
             return Enumerable.Range(0, firstLineInfo[F_VEHICLES])
-                .Select(_ => new Vehicle
+                .Select(i => new Vehicle(i)
                 {
-                    CurentLocation = new Coordinate {X = 0, Y = 0},
+                    CurentLocation = new Coordinate { X = 0, Y = 0 },
                     CurrentRide = null,
                     CurrentVehiclePath = null,
                     Taken = false
@@ -50,19 +50,11 @@ namespace Scheduler
             const int EARLIEST_START = 4;
             const int LATEST_FINISH = 5;
 
-            return ridesInfo.Select(rideInfo =>
+            return ridesInfo.Select((rideInfo, i) =>
             {
-                var start = new Coordinate
-                {
-                    X = rideInfo[ROW_START],
-                    Y = rideInfo[COLUMN_START]
-                };
-                var end = new Coordinate
-                {
-                    X = rideInfo[ROW_FINISH],
-                    Y = rideInfo[COLUMN_FINISH]
-                };
-                var ride = new Ride
+                var start = new Coordinate { X = rideInfo[ROW_START], Y = rideInfo[COLUMN_START] };
+                var end = new Coordinate { X = rideInfo[ROW_FINISH], Y = rideInfo[COLUMN_FINISH] };
+                var ride = new Ride(i)
                 {
                     RidePath = new Path(start, end),
                     StartStep = rideInfo[EARLIEST_START],
