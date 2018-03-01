@@ -4,5 +4,8 @@
     {
         public Coordinate CurentLocation { get; set; }
         public Path CurrentVehiclePath { get; set; }
+
+        public bool Taken { get; set; }
+        public Ride CurrentRide { get; set; } 
     }
 }

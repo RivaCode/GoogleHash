@@ -2,6 +2,7 @@
 {
     public class Ride
     {
+        public int Id { get; set; }
         public int StartStep { get; set; }
         public int EndStep { get; set; }
 
