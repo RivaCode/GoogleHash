@@ -80,7 +80,10 @@ namespace Scheduler.Simulation
                             else
                             {
                                 if (t < v.CurrentRide.StartStep)
+                                {
+                                    v.CurrentVehiclePath = null;
                                     continue;
+                                }
                                 History.Add(v, v.CurrentRide);
                                 v.Taken = true;
                                 v.CurrentVehiclePath = new Path(v.CurentLocation, v.CurrentRide.RidePath.EndLocation);
