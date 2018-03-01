@@ -7,6 +7,13 @@ namespace Scheduler
 {
     public class History : IEnumerable<IEnumerable<int>>
     {
+        private class VehicleComparer : IEqualityComparer<Vehicle>
+        {
+            public bool Equals(Vehicle x, Vehicle y) => x.Id == y.Id;
+
+            public int GetHashCode(Vehicle obj) => obj.Id.GetHashCode();
+        }
+
         private Dictionary<Vehicle, List<Ride>> _tracker;
         public History()
         {
@@ -22,23 +29,11 @@ namespace Scheduler
             _tracker[v].Add(ride);
         }
 
-        private class VehicleComparer : IEqualityComparer<Vehicle>
-        {
-            public bool Equals(Vehicle x, Vehicle y) => x.Id == y.Id;
-
-            public int GetHashCode(Vehicle obj) => obj.Id.GetHashCode();
-        }
-
         public IEnumerator<IEnumerable<int>> GetEnumerator()
-        {
-            return _tracker.Values.Select(rides =>
-            {
-                var clone = rides.Select(r => r.Id).ToList();
-                clone.Insert(0, rides.Capacity);
-
-                return clone.AsEnumerable();
-            }).GetEnumerator();
-        }
+            => _tracker.Values
+                .Select(
+                    rides => new[] {rides.Count}.Concat(rides.Select(r => r.Id)))
+                .GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
         {
