@@ -36,7 +36,7 @@ namespace Scheduler.Simulation
                     {
                         if (takenRide.RidePath.StartLocation == v.CurentLocation) // create path for current eeide
                         {
-                            History.AddStarted(v, v.CurrentRide);
+                            History.Add(v, v.CurrentRide);
                             v.CurrentVehiclePath = new Path(
                                 takenRide.RidePath.StartLocation, 
                                 takenRide.RidePath.EndLocation);
@@ -66,7 +66,7 @@ namespace Scheduler.Simulation
                             
                             if (v.Taken) // the path was with a ride
                             {
-                                History.AddFinished(v, v.CurrentRide);
+                                History.Add(v, v.CurrentRide);
                                 v.CurrentRide = null; // push the human out
                                 v.Taken = false;
                                 v.CurrentVehiclePath = null; // Path ended
@@ -74,7 +74,7 @@ namespace Scheduler.Simulation
 
                             else
                             {
-                                History.AddStarted(v, v.CurrentRide);
+                                History.Add(v, v.CurrentRide);
                                 v.Taken = true;
                                 v.CurrentVehiclePath = new Path(v.CurentLocation, v.CurrentRide.RidePath.EndLocation);
                             }
