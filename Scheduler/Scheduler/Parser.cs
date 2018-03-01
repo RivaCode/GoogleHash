@@ -16,15 +16,29 @@ namespace Scheduler
                 IOPath.Path.Combine(IOPath.Directory.GetCurrentDirectory(), "inputs", fileName))
                 .ToList();
 
-            var vehicles = lines.Take(1).AsNumeric().First().ReadVehicles();
+            const int BONUS = 4;
+            const int STEPS = 5;
+
+            var firstLine = lines.Take(1).AsNumeric().First();
+            var bonus = firstLine[BONUS];
+            var steps = firstLine[STEPS];
+            var vehicles = firstLine.ReadVehicles();
             var rides = lines.Skip(1).AsNumeric().ReadRides();
-            return new Data(vehicles, rides);
+
+            return new Data(vehicles, rides,steps, bonus);
         }
 
         private static Vehicle[] ReadVehicles(this int[] firstLineInfo)
         {
             const int F_VEHICLES = 2;
-            return new Vehicle[firstLineInfo[F_VEHICLES]];
+            return Enumerable.Range(0, firstLineInfo[F_VEHICLES])
+                .Select(_ => new Vehicle
+                {
+                    CurentLocation = new Coordinate {X = 0, Y = 0},
+                    CurrentRide = null,
+                    CurrentVehiclePath = null,
+                    Taken = false
+                }).ToArray();
         }
 
         private static Ride[] ReadRides(this IEnumerable<int[]> ridesInfo)
