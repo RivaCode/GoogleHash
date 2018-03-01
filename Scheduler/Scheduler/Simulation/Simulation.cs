@@ -23,7 +23,9 @@ namespace Scheduler.Simulation
             {
                 foreach (var v in Vehicles)
                 {
-                    if (v.Taken) continue;
+                    if (v.CurrentRide != null) continue;
+
+                    if (AvailableRides.Count == 0) continue;
 
                     var takenRide = RideFinder.FindRide(v, AvailableRides.Values.ToArray(), t);
 
@@ -44,8 +46,8 @@ namespace Scheduler.Simulation
                         else // create path to take ride
                         {
                             v.CurrentVehiclePath = new Path(
-                                takenRide.RidePath.StartLocation,
-                                takenRide.RidePath.EndLocation);
+                                v.CurentLocation,
+                                takenRide.RidePath.StartLocation);
                             v.Taken = false;
                             v.CurrentRide = takenRide;
                         }
@@ -74,7 +76,7 @@ namespace Scheduler.Simulation
                             {
                                 History.AddStarted(v, v.CurrentRide);
                                 v.Taken = true;
-                                v.CurrentVehiclePath = new Path(v.CurrentRide.RidePath.StartLocation, v.CurrentVehiclePath.EndLocation);
+                                v.CurrentVehiclePath = new Path(v.CurentLocation, v.CurrentRide.RidePath.EndLocation);
                             }
                         }
                     }

@@ -2,7 +2,7 @@
 
 namespace Scheduler.Models
 {
-    [DebuggerDisplay("Step:[{StartStep},{EndStep}], Path:{RidePath}, IsTaken:{IsTaken}, IsAvailiable:{IsAvailiable}")]
+    [DebuggerDisplay("Id: [{Id}], Step:[{StartStep},{EndStep}], Path:{RidePath}, IsTaken:{IsTaken}, IsAvailiable:{IsAvailiable}")]
     public class Ride
     {
         public int Id { get; set; }

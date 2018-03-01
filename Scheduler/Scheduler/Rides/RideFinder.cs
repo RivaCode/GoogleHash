@@ -54,7 +54,7 @@ namespace Scheduler.Rides
             if (currentStep > r.AvailiableAt)
                 length = r.RideLenght - (currentStep - r.AvailiableAt);
             
-            if (length >= r.RideLenght)
+            if (length > r.RideLenght)
                 return false;
 
             return true;

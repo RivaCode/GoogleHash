@@ -7,5 +7,6 @@
 
         public bool Taken { get; set; }
         public Ride CurrentRide { get; set; } 
+        public int Id { get; set; }
     }
 }

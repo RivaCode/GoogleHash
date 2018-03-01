@@ -32,12 +32,13 @@ namespace Scheduler
         {
             const int F_VEHICLES = 2;
             return Enumerable.Range(0, firstLineInfo[F_VEHICLES])
-                .Select(_ => new Vehicle
+                .Select(i => new Vehicle
                 {
                     CurentLocation = new Coordinate {X = 0, Y = 0},
                     CurrentRide = null,
                     CurrentVehiclePath = null,
-                    Taken = false
+                    Taken = false,
+                    Id = i
                 }).ToArray();
         }
 
@@ -50,7 +51,7 @@ namespace Scheduler
             const int EARLIEST_START = 4;
             const int LATEST_FINISH = 5;
 
-            return ridesInfo.Select(rideInfo =>
+            return ridesInfo.Select((rideInfo, i) =>
             {
                 var start = new Coordinate
                 {
@@ -66,7 +67,8 @@ namespace Scheduler
                 {
                     RidePath = new Path(start, end),
                     StartStep = rideInfo[EARLIEST_START],
-                    EndStep = rideInfo[LATEST_FINISH]
+                    EndStep = rideInfo[LATEST_FINISH],
+                    Id = i
                 };
                 return ride;
             }).ToArray();

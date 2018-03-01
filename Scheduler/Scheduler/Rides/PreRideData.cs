@@ -18,6 +18,7 @@
         public PreVehicleRideData UpdateWaitTime(int currentTime)
         {
             WaitTime = AvailiableAt - (currentTime + StepsToStart);
+            if (WaitTime < 0) WaitTime = 0;
             return this;
         }
     }
