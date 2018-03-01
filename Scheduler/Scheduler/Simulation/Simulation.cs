@@ -2,6 +2,7 @@
 using Scheduler.Rides;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Scheduler.Simulation
@@ -24,7 +25,7 @@ namespace Scheduler.Simulation
                 {
                     if (v.Taken) continue;
 
-                    var takenRide = RideFinder.FindRide(v, AvailableRides.Values, t);
+                    var takenRide = RideFinder.FindRide(v, AvailableRides.Values.ToArray(), t);
 
                     TakenRides.Add(takenRide.Id, takenRide);
                     AvailableRides.Remove(takenRide.Id);
