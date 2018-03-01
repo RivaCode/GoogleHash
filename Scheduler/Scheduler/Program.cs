@@ -14,7 +14,7 @@ namespace Scheduler
 
         static void Main(string[] args)
         {
-            var targetFile = SHOULD_BE_EASY;
+            var targetFile = EXAMPLE;
             var data = Parser.Parse(targetFile);
 
             var simulation = new Simulation.Simulation

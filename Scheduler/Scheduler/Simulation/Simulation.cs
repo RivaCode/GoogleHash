@@ -36,11 +36,16 @@ namespace Scheduler.Simulation
                     {
                         if (takenRide.RidePath.StartLocation == v.CurentLocation) // create path for current eeide
                         {
-                            History.Add(v, v.CurrentRide);
-                            v.CurrentVehiclePath = new Path(
+                            v.CurrentRide = takenRide;
+                            if (t >= takenRide.StartStep)
+                                History.Add(v, v.CurrentRide);
+                            v.CurrentVehiclePath = 
+                                t < takenRide.StartStep ?
+                                null :
+                                new Path(
                                 takenRide.RidePath.StartLocation, 
                                 takenRide.RidePath.EndLocation);
-                            v.Taken = true;
+                            v.Taken = t < takenRide.StartStep ? false : true;
                             v.CurrentRide = takenRide;
                         }
                         else // create path to take ride
@@ -74,7 +79,7 @@ namespace Scheduler.Simulation
 
                             else
                             {
-                                if (v.CurrentRide.StartStep < t)
+                                if (t < v.CurrentRide.StartStep)
                                     continue;
                                 History.Add(v, v.CurrentRide);
                                 v.Taken = true;
@@ -83,9 +88,9 @@ namespace Scheduler.Simulation
                         }
                     }
 
-                    if (v.CurrentRide != null && v.Taken == false) // waiting on the intersection
+                    if (v.CurrentRide != null && v.Taken == false && v.CurrentVehiclePath == null) // waiting on the intersection
                     {
-                        if (v.CurrentRide.StartStep < t)
+                        if (t < v.CurrentRide.StartStep)
                             continue;
                         History.Add(v, v.CurrentRide);
                         v.Taken = true;
