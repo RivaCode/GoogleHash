@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Scheduler.Extentions;
 
@@ -14,28 +15,25 @@ namespace Scheduler
 
         static void Main(string[] args)
         {
-            var targetFile = EXAMPLE;
-            var data = Parser.Parse(targetFile);
-
-            var simulation = new Simulation.Simulation
+            foreach (var targetFile in new[] { EXAMPLE, SHOULD_BE_EASY, NO_HURRY, METROPOLIS, HIGH_BONUS })
             {
-                AvailableRides =
-                data.Rides.ToDictionary(
-                    x => x.Id,
-                    x => x),
-                History = new History(),
-                StepLimit = data.Steps,
-                TakenRides = new System.Collections.Generic.Dictionary<int, Models.Ride>(),
-                Vehicles = data.Vehicles
-            };
+                var data = Parser.Parse(targetFile);
 
-            simulation.Run();
-            simulation.History.Submit(targetFile);
-        }
+                var simulation = new Simulation.Simulation
+                {
+                    AvailableRides =
+                        data.Rides.ToDictionary(
+                            x => x.Id,
+                            x => x),
+                    History = new History(),
+                    StepLimit = data.Steps,
+                    TakenRides = new Dictionary<int, Models.Ride>(),
+                    Vehicles = data.Vehicles
+                };
 
-        static void RunSimulation()
-        {
-
+                simulation.Run();
+                simulation.History.Submit(targetFile);
+            }
         }
     }
 }

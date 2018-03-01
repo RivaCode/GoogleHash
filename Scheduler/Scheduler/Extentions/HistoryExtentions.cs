@@ -8,7 +8,8 @@ namespace Scheduler.Extentions
     {
         public static void Submit(this History history, string fileName)
         {
-            var dirName = IOPath.Path.Combine(IOPath.Directory.GetCurrentDirectory(), "outputs");
+            var dirName = IOPath.Path.Combine(
+                IOPath.Directory.GetParent(IOPath.Directory.GetCurrentDirectory()).FullName, "outputs");
             if (!IOPath.Directory.Exists(dirName))
             {
                 IOPath.Directory.CreateDirectory(dirName);
