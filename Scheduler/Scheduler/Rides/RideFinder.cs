@@ -23,8 +23,12 @@ namespace Scheduler.Rides
         
         private static int GetOptimizeRide(List<PreVehicleRideData> data, int currentStep)
         {
+            var maxRideLn = data.Max(x => x.RideLenght);
+            var avgRideLn = data.Average(x => x.RideLenght);
+
             var bonusData = data
                 .Where(d => d.CanGetStartOnTimeBonus(currentStep))
+                .Where(d => d.RideLenght < avgRideLn * 2.5)
                 .OrderBy(d => d.WaitTime)
                 .ThenBy(d => d.StepsToStart)
                 .FirstOrDefault();
@@ -40,6 +44,7 @@ namespace Scheduler.Rides
                 return data.First().Id;
 
             return preVehicleRideDatas
+                .Where(d => d.RideLenght < avgRideLn * 2.5)
                 .OrderBy(d => d.WaitTime)
                 .ThenBy(d => d.StepsToStart)
                 .First()
