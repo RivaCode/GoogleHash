@@ -7,6 +7,8 @@ namespace Scheduler
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            var data = Parser.Read("a_example.in");
+            Console.Read();
         }
 
         static void RunSimulation()
