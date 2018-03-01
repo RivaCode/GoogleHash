@@ -8,5 +8,10 @@ namespace Scheduler
         {
             Console.WriteLine("Hello World!");
         }
+
+        static void RunSimulation()
+        {
+
+        }
     }
 }
