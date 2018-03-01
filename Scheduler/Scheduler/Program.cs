@@ -10,5 +10,10 @@ namespace Scheduler
             var data = Parser.Parse("a_example.in");
             Console.Read();
         }
+
+        static void RunSimulation()
+        {
+
+        }
     }
 }
